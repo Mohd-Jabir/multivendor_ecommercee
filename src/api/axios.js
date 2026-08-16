@@ -1,6 +1,6 @@
 import axios from "axios";
 const api = axios.create({
-  baseURL: "https://multivendor-backend-crkw.onrender.com/api",
+  baseURL: "https://multivendor-ecommercee-3.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
