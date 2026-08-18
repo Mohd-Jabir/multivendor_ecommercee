@@ -2,7 +2,7 @@ import api from "./axios";
 
 export const getCart = async () => {
   const response = await api.get("/cart");
-  return response.data;
+  response.data.data || response.data
 };
 export const addCartItem = async (cartItemData) => {
   const response = await api.post("/cart/items", cartItemData);
