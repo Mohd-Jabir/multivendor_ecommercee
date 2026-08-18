@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 const initialForm = {
   name: "",
   description: "",
@@ -8,9 +9,13 @@ const initialForm = {
   stock: "",
   imageUrl: "",
 };
-const ProductForm = ({ product, categories = [], onSubmit, isSubmitting }) => {
+const ProductForm = ({
+  product,
+  categories = [],
+  onSubmit,
+  isSubmitting,
+}) => {
   const [formData, setFormData] = useState(initialForm);
-  console.log("CATEGORIES RECEIVED:", categories);
   useEffect(() => {
     if (product) {
       setFormData({
@@ -43,7 +48,9 @@ const ProductForm = ({ product, categories = [], onSubmit, isSubmitting }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="text-sm font-medium">Product name</label>
+        <label className="text-sm font-medium">
+          Product name
+        </label>
         <input
           name="name"
           value={formData.name}
@@ -54,7 +61,9 @@ const ProductForm = ({ product, categories = [], onSubmit, isSubmitting }) => {
         />
       </div>
       <div>
-        <label className="text-sm font-medium">Description</label>
+        <label className="text-sm font-medium">
+          Description
+        </label>
         <textarea
           name="description"
           value={formData.description}
@@ -66,22 +75,36 @@ const ProductForm = ({ product, categories = [], onSubmit, isSubmitting }) => {
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-medium">Category</label>
+          <label className="text-sm font-medium">
+            Category
+          </label>
           <select
             name="categoryId"
             value={formData.categoryId}
             onChange={handleChange}
             required
-            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm"
+            disabled={categories.length === 0}
+            className="mt-2 w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm disabled:cursor-not-allowed disabled:bg-gray-100"
           >
-            <option value="">Select category</option>
-            <option value="1">Electronics TEST</option>
-            <option value="2">Clothing TEST</option>
-            <option value="3">Books TEST</option>
+            <option value="">
+              {categories.length === 0
+                ? "No categories available"
+                : "Select category"}
+            </option>
+            {categories.map((category) => (
+              <option
+                key={category.id}
+                value={category.id}
+              >
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
         <div>
-          <label className="text-sm font-medium">Price</label>
+          <label className="text-sm font-medium">
+            Price
+          </label>
           <input
             name="price"
             type="number"
@@ -94,7 +117,9 @@ const ProductForm = ({ product, categories = [], onSubmit, isSubmitting }) => {
           />
         </div>
         <div>
-          <label className="text-sm font-medium">SKU</label>
+          <label className="text-sm font-medium">
+            SKU
+          </label>
           <input
             name="sku"
             value={formData.sku}
@@ -104,7 +129,9 @@ const ProductForm = ({ product, categories = [], onSubmit, isSubmitting }) => {
           />
         </div>
         <div>
-          <label className="text-sm font-medium">Stock</label>
+          <label className="text-sm font-medium">
+            Stock
+          </label>
           <input
             name="stock"
             type="number"
@@ -118,7 +145,10 @@ const ProductForm = ({ product, categories = [], onSubmit, isSubmitting }) => {
         </div>
       </div>
       <div>
-        <label className="text-sm font-medium">Image URL</label>
+        <label className="text-sm font-medium">
+          Image URL
+        </label>
+
         <input
           name="imageUrl"
           type="url"
@@ -130,7 +160,7 @@ const ProductForm = ({ product, categories = [], onSubmit, isSubmitting }) => {
       </div>
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || categories.length === 0}
         className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isSubmitting
