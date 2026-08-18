@@ -1,4 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import {
   createVendorStore,
@@ -16,6 +20,8 @@ export const useVendorStore = () => {
   return useQuery({
     queryKey: ["vendor", "store"],
     queryFn: getVendorStore,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
 };
 export const useCreateVendorStore = () => {
@@ -29,7 +35,6 @@ export const useCreateVendorStore = () => {
     },
   });
 };
-
 export const useUpdateVendorStore = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -41,14 +46,12 @@ export const useUpdateVendorStore = () => {
     },
   });
 };
-
 export const useVendorProducts = (params = {}) => {
   return useQuery({
     queryKey: ["vendor", "products", params],
     queryFn: () => getVendorProducts(params),
   });
 };
-
 export const useCreateVendorProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -78,7 +81,6 @@ export const useUpdateVendorProduct = () => {
     },
   });
 };
-
 export const useDeleteVendorProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -93,7 +95,6 @@ export const useDeleteVendorProduct = () => {
     },
   });
 };
-
 export const useUpdateVendorProductStock = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -115,7 +116,6 @@ export const useVendorOrders = (params = {}) => {
     queryFn: () => getVendorOrders(params),
   });
 };
-
 export const useUpdateVendorOrderItemStatus = () => {
   const queryClient = useQueryClient();
   return useMutation({
