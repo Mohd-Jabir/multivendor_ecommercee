@@ -15,7 +15,9 @@ const ProductDetailPage = () => {
     error,
   } = useProduct(id);
   const addCartMutation = useAddCartItem();
-  const isCustomer = user?.role === "CUSTOMER";
+  const canAddToCart =
+    user?.role === "CUSTOMER" || user?.role === "ADMIN";
+
   const handleAddToCart = () => {
     if (!product) {
       return;
@@ -95,7 +97,7 @@ const ProductDetailPage = () => {
               {product.vendorStoreName || "—"}
             </p>
           </div>
-          {isCustomer && (
+          {canAddToCart && (
             <div className="mt-8">
               <button
                 type="button"
