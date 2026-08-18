@@ -1,8 +1,10 @@
 import api from "./axios";
 
 export const getProducts = async (params = {}) => {
-  const response = await api.get("/products", { params });
-  return response.data;
+  const response = await api.get("/products", {
+    params,
+  });
+  return response.data.data || response.data;
 };
 export const getProductById = async (id) => {
   const response = await api.get(`/products/${id}`);
