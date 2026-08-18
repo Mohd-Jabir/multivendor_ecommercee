@@ -18,12 +18,17 @@ const AdminDashboardPage = () => {
     size: 20,
   });
   const isLoading =
-    pendingLoading || approvedLoading || categoriesLoading || ordersLoading;
+    pendingLoading ||
+    approvedLoading ||
+    categoriesLoading ||
+    ordersLoading;
   if (isLoading) {
     return (
       <main className="mx-auto max-w-7xl px-4 py-10">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <p className="mt-3 text-sm text-muted">Loading dashboard...</p>
+        <p className="mt-3 text-sm text-muted">
+          Loading dashboard...
+        </p>
       </main>
     );
   }
@@ -38,7 +43,6 @@ const AdminDashboardPage = () => {
       </section>
       <section className="mt-8">
         <h2 className="font-semibold">Overview</h2>
-
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             [
@@ -79,11 +83,12 @@ const AdminDashboardPage = () => {
           ))}
         </div>
       </section>
-
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <section className="rounded-lg border border-border bg-surface p-5">
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold">Pending Vendor Approvals</h2>
+            <h2 className="font-semibold">
+              Pending Vendor Approvals
+            </h2>
             <Link
               to="/admin/vendors"
               className="text-sm font-medium text-primary"
@@ -91,7 +96,6 @@ const AdminDashboardPage = () => {
               View All
             </Link>
           </div>
-
           {!pendingVendors?.length ? (
             <p className="mt-4 text-sm text-muted">
               No vendors are waiting for approval.
@@ -100,13 +104,17 @@ const AdminDashboardPage = () => {
             <div className="mt-4 divide-y divide-border">
               {pendingVendors.slice(0, 5).map((vendor) => (
                 <article
-                  key={vendor.id || vendor.vendorId}
+                  key={vendor.id}
                   className="py-3 first:pt-0 last:pb-0"
                 >
                   <h3 className="text-sm font-medium">
-                    {vendor.name || "Vendor"}
+                    {vendor.ownerName || "Vendor"}
                   </h3>
-                  <p className="mt-1 text-sm text-muted">{vendor.email}</p>
+
+                  <p className="mt-1 text-sm text-muted">
+                    {vendor.ownerEmail || "N/A"}
+                  </p>
+
                   <p className="mt-1 text-sm text-muted">
                     Store: {vendor.storeName || "N/A"}
                   </p>
@@ -115,7 +123,6 @@ const AdminDashboardPage = () => {
             </div>
           )}
         </section>
-
         <section className="rounded-lg border border-border bg-surface p-5">
           <div className="flex items-center justify-between">
             <h2 className="font-semibold">Recent Orders</h2>
@@ -126,9 +133,10 @@ const AdminDashboardPage = () => {
               View All
             </Link>
           </div>
-
           {!orders.length ? (
-            <p className="mt-4 text-sm text-muted">No orders yet.</p>
+            <p className="mt-4 text-sm text-muted">
+              No orders yet.
+            </p>
           ) : (
             <div className="mt-4 divide-y divide-border">
               {orders.slice(0, 5).map((order) => (
@@ -144,17 +152,17 @@ const AdminDashboardPage = () => {
                       Status: {order.status || "N/A"}
                     </p>
                   </div>
-                  <strong className="text-sm">₹{order.totalAmount ?? 0}</strong>
+                  <strong className="text-sm">
+                    ₹{order.totalAmount ?? 0}
+                  </strong>
                 </article>
               ))}
             </div>
           )}
         </section>
       </div>
-
       <section className="mt-8">
         <h2 className="font-semibold">Quick Actions</h2>
-
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
             to="/admin/vendors"
