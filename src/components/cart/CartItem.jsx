@@ -1,4 +1,10 @@
-const CartItem = ({ item, onUpdate, onRemove, isUpdating, isRemoving }) => {
+const CartItem = ({
+  item,
+  onUpdate,
+  onRemove,
+  isUpdating,
+  isRemoving,
+}) => {
   return (
     <article className="flex gap-4 rounded-lg border border-border bg-surface p-4">
       <img
@@ -6,32 +12,59 @@ const CartItem = ({ item, onUpdate, onRemove, isUpdating, isRemoving }) => {
         alt={item.productName}
         className="h-20 w-20 rounded-md border border-border object-contain sm:h-24 sm:w-24"
       />
+
       <div className="min-w-0 flex-1">
-        <h3 className="truncate font-medium">{item.productName}</h3>
-        <p className="mt-1 text-sm font-semibold text-primary">₹{item.price}</p>
+        <h3 className="truncate font-medium">
+          {item.productName}
+        </h3>
+
+        <p className="mt-1 text-sm font-semibold text-primary">
+          ₹{item.price}
+        </p>
+
+        <p className="mt-1 text-sm text-muted">
+          Available stock: {item.availableStock}
+        </p>
+
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center rounded-md border border-border">
             <button
               type="button"
-              onClick={() => onUpdate(item.id, { quantity: item.quantity - 1 })}
+              onClick={() =>
+                onUpdate(item.cartItemId, {
+                  quantity: item.quantity - 1,
+                })
+              }
               disabled={item.quantity <= 1 || isUpdating}
               className="h-8 w-8 text-lg hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
             >
               −
             </button>
-            <span className="w-8 text-center text-sm">{item.quantity}</span>
+
+            <span className="w-8 text-center text-sm">
+              {item.quantity}
+            </span>
+
             <button
               type="button"
-              onClick={() => onUpdate(item.id, { quantity: item.quantity + 1 })}
-              disabled={isUpdating}
+              onClick={() =>
+                onUpdate(item.cartItemId, {
+                  quantity: item.quantity + 1,
+                })
+              }
+              disabled={
+                isUpdating ||
+                item.quantity >= item.availableStock
+              }
               className="h-8 w-8 text-lg hover:bg-page disabled:cursor-not-allowed disabled:opacity-40"
             >
               +
             </button>
           </div>
+
           <button
             type="button"
-            onClick={() => onRemove(item.id)}
+            onClick={() => onRemove(item.cartItemId)}
             disabled={isRemoving}
             className="text-sm font-medium text-danger hover:text-danger/80 disabled:cursor-not-allowed disabled:opacity-50"
           >
