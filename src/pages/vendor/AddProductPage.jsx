@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+
 import {
   useCreateVendorProduct,
   useVendorStore,
 } from "../../hooks/useVendor.js";
+import { useCategories } from "../../hooks/useCategories.js";
 import ProductForm from "../../components/vendor/ProductForm.jsx";
 const AddProductPage = () => {
   const navigate = useNavigate();
@@ -12,6 +14,12 @@ const AddProductPage = () => {
     isError: isStoreError,
     error: storeError,
   } = useVendorStore();
+  const {
+    data: categories = [],
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+    error: categoriesError,
+  } = useCategories(false);
   const createMutation = useCreateVendorProduct();
   const handleSubmit = (productData) => {
     if (createMutation.isPending) {
@@ -27,7 +35,6 @@ const AddProductPage = () => {
     return (
       <main className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
         <h1 className="text-2xl font-bold">Add Product</h1>
-
         <p className="mt-3 text-sm text-muted">
           Checking your store status...
         </p>
@@ -110,6 +117,36 @@ const AddProductPage = () => {
       </main>
     );
   }
+  if (isCategoriesLoading) {
+    return (
+      <main className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
+        <h1 className="text-2xl font-bold">Add Product</h1>
+
+        <p className="mt-3 text-sm text-muted">
+          Loading categories...
+        </p>
+      </main>
+    );
+  }
+  if (isCategoriesError) {
+    return (
+      <main className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
+        <h1 className="text-2xl font-bold">Add Product</h1>
+
+        <section className="mt-8 rounded-lg border border-red-200 bg-red-50 p-6">
+          <h2 className="text-lg font-semibold text-red-800">
+            Unable to load categories
+          </h2>
+
+          <p className="mt-2 text-sm text-red-600">
+            {categoriesError?.response?.data?.message ||
+              categoriesError?.message ||
+              "Unable to load categories."}
+          </p>
+        </section>
+      </main>
+    );
+  }
   return (
     <main className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
       <div>
@@ -120,6 +157,7 @@ const AddProductPage = () => {
       </div>
       <section className="mt-8 rounded-lg border border-border bg-surface p-5 sm:p-6">
         <ProductForm
+          categories={categories}
           onSubmit={handleSubmit}
           isSubmitting={createMutation.isPending}
         />
