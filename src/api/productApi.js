@@ -8,5 +8,5 @@ export const getProducts = async (params = {}) => {
 };
 export const getProductById = async (id) => {
   const response = await api.get(`/products/${id}`);
-  return response.data;
+  return response.data.data || response.data;
 };
