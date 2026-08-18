@@ -1,4 +1,5 @@
 import api from "./axios";
+
 export const createVendorStore = async (storeData) => {
   const response = await api.post("/vendor/store", storeData);
   return response.data.data || response.data;
@@ -19,40 +20,52 @@ export const updateVendorStore = async (storeData) => {
   return response.data.data || response.data;
 };
 export const createVendorProduct = async (productData) => {
-  const response = await api.post("/vendor/products", productData);
-  return response.data;
+  const response = await api.post(
+    "/vendor/products",
+    productData
+  );
+  return response.data.data || response.data;
 };
 export const getVendorProducts = async (params = {}) => {
   const response = await api.get("/vendor/products", {
     params,
   });
-  return response.data;
+  return response.data.data || response.data;
 };
-export const updateVendorProduct = async (productId, productData) => {
+export const updateVendorProduct = async (
+  productId,
+  productData
+) => {
   const response = await api.put(
     `/vendor/products/${productId}`,
     productData
   );
-  return response.data;
+  return response.data.data || response.data;
 };
 export const deleteVendorProduct = async (productId) => {
-  const response = await api.delete(`/vendor/products/${productId}`);
+  const response = await api.delete(
+    `/vendor/products/${productId}`
+  );
   return response.data;
 };
-export const updateVendorProductStock = async (productId, stock) => {
+export const updateVendorProductStock = async (
+  productId,
+  stock
+) => {
   const response = await api.patch(
     `/vendor/products/${productId}/stock`,
     {
       stock,
     }
   );
-  return response.data;
+  return response.data.data || response.data;
 };
+
 export const getVendorOrders = async (params = {}) => {
   const response = await api.get("/vendor/orders", {
     params,
   });
-  return response.data;
+  return response.data.data || response.data;
 };
 export const updateVendorOrderItemStatus = async (
   orderItemId,
@@ -64,5 +77,5 @@ export const updateVendorOrderItemStatus = async (
       status,
     }
   );
-  return response.data;
+  return response.data.data || response.data;
 };
